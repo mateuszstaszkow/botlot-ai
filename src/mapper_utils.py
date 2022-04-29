@@ -1,6 +1,7 @@
 from datetime import datetime
 
 DATE_MAX = datetime(2022, 9, 1)
+DATE_MIN = datetime(2022, 4, 1)
 
 
 def _flatten_data(y):
@@ -22,6 +23,18 @@ def _flatten_data(y):
     return out
 
 
+def _is_price_ok(flat_flight, attribute):
+    return (attribute in flat_flight) and (flat_flight[attribute] is not None) and (flat_flight[attribute] > 0)
+
+
+def _is_fully_priced(flat_flight):
+    return _is_price_ok(flat_flight, 'cost') \
+           and _is_price_ok(flat_flight, 'arrival_startTaxiCost') \
+           and _is_price_ok(flat_flight, 'arrival_endTaxiCost') \
+           and _is_price_ok(flat_flight, 'summary') \
+           and _is_price_ok(flat_flight, 'hotel_cost')
+
+
 def map_to_flat_flights(flights):
     dated_flights = list(
         map(lambda flight:
@@ -31,12 +44,16 @@ def map_to_flat_flights(flights):
     for date in dated_flights:
         for dated_flight in date:
             flat_flight = _flatten_data(dated_flight)
-            flight_date = datetime.strptime(flat_flight['weekend_startDay'], '%Y-%m-%d')
-            if flight_date < DATE_MAX:
+            date = datetime.strptime(flat_flight['weekend_startDay'], '%Y-%m-%d')
+            is_date_ok = (date < DATE_MAX) and (date > DATE_MIN)
+            if is_date_ok and _is_fully_priced(flat_flight):
                 flat_flights.append(flat_flight)
     return flat_flights
 
 
-def get_cities(flights):
-    cities = map(lambda flight: flight['arrival_city'], flights)
-    return list(set(cities))
+def get_distinct_attributes(flights, attribute):
+    values = map(lambda flight: flight[attribute], flights)
+    distinct_values =  list(set(values))
+    distinct_values.sort()
+    return distinct_values
+
