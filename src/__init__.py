@@ -38,12 +38,10 @@ labeled_data = stat.label_data(df)
 print('9. Save CSV with labeled data')
 labeled_data.to_csv('../data/labeled_data.csv')
 
-# labeled_data = pd.read_csv('../data/labeled_data.csv')
+print('10. Numerify data')
+numerified_data = ai.numerify_data(labeled_data)
 
-training_data, testing_data = ai.split_data(labeled_data)
+print('11. Save CSV with numerified data')
+numerified_data.to_csv('../data/numerified_data.csv')
 
-ai.logistic_regression(training_data, testing_data)
-
-# TODO: logistic regression
-# TODO: other methods: decision tree, random forest, CNN
-# cluster_data(data)
+# In order to run machine_learning, go to the machine_learing.py
