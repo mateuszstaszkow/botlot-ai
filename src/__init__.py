@@ -3,7 +3,6 @@ from conf.properties import DB_NAME
 import mapper_utils as mapper
 import statistics_utils as stat
 import pandas as pd
-import clustering_utils as ai
 
 COL_FLIGHTS = 'flights'
 
