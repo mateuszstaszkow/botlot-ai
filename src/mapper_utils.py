@@ -1,7 +1,28 @@
+import datetime
+import time
 from datetime import datetime
+import pandas as pd
+
 
 DATE_MAX = datetime(2022, 9, 1)
 DATE_MIN = datetime(2022, 4, 1)
+LABEL = 'target_cost_medium'
+ALLOWED_COLUMNS = [
+    'date', # to timestamp
+    'cost',
+    'arrival_airline', # categories, only first value
+    'arrival_startTaxiCost',
+    'arrival_endTaxiCost',
+    'depart_airline', # categories, only second value
+    'weekend_startDay', # to timestamp
+    'hotel_cost',
+    'hotel_coordinates_0',
+    'hotel_coordinates_1',
+    'detailedFlight_start_name', # categories
+    'detailedFlight_end_coordinates_0',
+    'detailedFlight_end_coordinates_1',
+    'price_index'
+]
 
 
 def _flatten_data(y):
@@ -35,6 +56,17 @@ def _is_fully_priced(flat_flight):
            and _is_price_ok(flat_flight, 'hotel_cost')
 
 
+def _map_date_to_timestamp(date):
+    return time.mktime(datetime.datetime.strptime(date, '%Y-%m-%d').timetuple())
+
+
+def _format_airline(airline, is_arrival):
+    if 'and' in airline:
+        and_index = airline.index('and')
+        return airline[0:and_index - 1] if is_arrival else airline[and_index + 3:]
+    return airline
+
+
 def map_to_flat_flights(flights):
     dated_flights = list(
         map(lambda flight:
@@ -57,3 +89,11 @@ def get_distinct_attributes(flights, attribute):
     distinct_values.sort()
     return distinct_values
 
+
+def numerify_data(df):
+    df = df[ALLOWED_COLUMNS]
+    df['date'] = df['date'].apply(lambda d: _map_date_to_timestamp(d))
+    df['weekend_startDay'] = df['weekend_startDay'].apply(_map_date_to_timestamp)
+    df['arrival_airline'] = df['arrival_airline'].apply(lambda a: _format_airline(a, True))
+    df['depart_airline'] = df['depart_airline'].apply(lambda a: _format_airline(a, False))
+    return pd.get_dummies(df)

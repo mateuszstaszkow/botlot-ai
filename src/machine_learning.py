@@ -97,7 +97,7 @@ def decision_tree(index, X_train, y_train, X_test, y_test, y):
     tree.plot_tree(dt)
     plt.show()
     plt.title(title)
-    plt.savefig('../data/chart_decision_tree.png')
+    plt.savefig('../results/chart_decision_tree.png')
 
     return measures
 
@@ -115,7 +115,7 @@ def decision_tree_with_parameters(index, X_train, y_train, X_test, y_test, y):
     plt.show()
     plt.figure(dpi=1200)
     plt.title(title)
-    plt.savefig('../data/chart_decision_tree_with_parameters.png')
+    plt.savefig('../results/chart_decision_tree_with_parameters.png')
 
     return measures
 

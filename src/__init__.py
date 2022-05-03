@@ -39,7 +39,7 @@ print('9. Save CSV with labeled data')
 labeled_data.to_csv('../data/labeled_data.csv')
 
 print('10. Numerify data')
-numerified_data = ai.numerify_data(labeled_data)
+numerified_data = mapper.numerify_data(labeled_data)
 
 print('11. Save CSV with numerified data')
 numerified_data.to_csv('../data/numerified_data.csv')
