@@ -1,5 +1,5 @@
 # BOTLOT AI
-#### AI analysis: Python, Pandas
+#### AI analysis: Python, pandas, scikit-learn, TensorFlow
 
 ## Project structure
 
