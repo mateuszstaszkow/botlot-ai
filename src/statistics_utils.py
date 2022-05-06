@@ -49,6 +49,7 @@ def chart_by_category(data, category='weekend_startDay', city='Paris'):
     city_df.boxplot(by=category, column=['summary'], grid=False, showmeans=True, ax=ax)
     plt.xticks(rotation=45, ha='right')
     plt.show()
+    plt.savefig('../results/' + city + '_' + category + '.png')
 
 
 def assign_target_price(data, cities, weekends):

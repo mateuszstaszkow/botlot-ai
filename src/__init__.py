@@ -34,13 +34,10 @@ priced_data = stat.assign_target_price(df, cities, weekends)
 print('8. Label data')
 labeled_data = stat.label_data(df)
 
-print('9. Save CSV with labeled data')
-labeled_data.to_csv('../data/labeled_data.csv')
+print('9. Numerify data')
+numerified_data = mapper.filter_columns_and_numerify(labeled_data)
 
-print('10. Numerify data')
-numerified_data = mapper.numerify_data(labeled_data)
-
-print('11. Save CSV with numerified data')
+print('10. Save CSV with numerified data')
 numerified_data.to_csv('../data/numerified_data.csv')
 
 # In order to run machine_learning, go to the machine_learing.py

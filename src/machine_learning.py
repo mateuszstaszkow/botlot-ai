@@ -12,6 +12,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
+import seaborn as sns
 
 # from keras.models import Sequential
 # from keras.layers import Dense, Dropout
@@ -196,6 +197,28 @@ def machine_learning(X_train, y_train, X_test, y_test, y):
     plt.title('Model comparison')
     plt.show()
 
+
+# Pearson Correlation
+def correlation_matrix():
+    df = pd.read_csv('../data/filtered_data.csv')
+    df = df.iloc[: , 1:]
+    df = df.iloc[:, :-1]
+    plt.figure(figsize=(20,20))
+    cor = df.corr()
+    sns.heatmap(cor, annot=True, cmap=plt.cm.Reds)
+    plt.title('Macierz korelacji Pearsona')
+    plt.xticks(rotation=45, ha="right")
+    plt.margins(x=0)
+    plt.show()
+
+    # Correlation with output variable
+    cor_target = abs(cor["price_index"])
+    #Selecting highly correlated features
+    relevant_features = cor_target[cor_target>0.5]
+    print(relevant_features)
+
+
+# correlation_matrix()
 
 print('###### Prepare data')
 print('1. Read data')

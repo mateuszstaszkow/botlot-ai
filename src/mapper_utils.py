@@ -57,7 +57,7 @@ def _is_fully_priced(flat_flight):
 
 
 def _map_date_to_timestamp(date):
-    return time.mktime(datetime.datetime.strptime(date, '%Y-%m-%d').timetuple())
+    return time.mktime(datetime.strptime(date, '%Y-%m-%d').timetuple())
 
 
 def _format_airline(airline, is_arrival):
@@ -90,7 +90,7 @@ def get_distinct_attributes(flights, attribute):
     return distinct_values
 
 
-def numerify_data(df):
+def filter_columns_and_numerify(df):
     df = df[ALLOWED_COLUMNS]
     df['date'] = df['date'].apply(lambda d: _map_date_to_timestamp(d))
     df['weekend_startDay'] = df['weekend_startDay'].apply(_map_date_to_timestamp)
